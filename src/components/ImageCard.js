@@ -12,8 +12,8 @@ function ImageCard({gif, handleAddItem, handleDeleteItem, addedItems}) {
   };
 
   return (
-    <div className='w-1/3 flex flex-col gap-2'>
-        <img src={gif.url} alt={gif.title} loading='lazy' className=' object-cover w-full min-w-[300px] aspect-square'/>
+    <div className='w-10/12 mx-auto sm:w-1/3 flex flex-col gap-2'>
+        <img src={gif.url} alt={gif.title} loading='lazy' className=' object-cover w-full min-w-[180px] lg:min-w-[250px] aspect-square'/>
         <div className=' flex justify-between'>
           <div>
               <p className=' text-sm font-semibold line-clamp-1'>{gif.title}</p>

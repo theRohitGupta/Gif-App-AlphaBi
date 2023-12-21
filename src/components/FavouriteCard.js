@@ -4,8 +4,8 @@ import { FaHeart } from 'react-icons/fa'
 function FavouriteCard({gif, handleDeleteItem}) {
 
   return (
-    <div className='w-full flex flex-col gap-2'>
-        <img src={gif.url} alt={gif.title} loading='lazy' className=' object-cover w-[150px] aspect-square'/>
+    <div className='w-full h-full flex flex-col gap-2'>
+        <img src={gif.url} alt={gif.title} loading='lazy' className=' object-cover aspect-square'/>
         <div className=' flex justify-between'>
           <div>
               <p className=' text-sm font-semibold line-clamp-1'>{gif.title}</p>

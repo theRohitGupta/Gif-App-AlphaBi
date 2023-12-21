@@ -4,6 +4,7 @@
 
 html,body {
   background-color: #E8EAEE;
+  user-select: none;
 }
 
 @layer components {

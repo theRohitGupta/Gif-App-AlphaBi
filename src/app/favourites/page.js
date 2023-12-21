@@ -61,11 +61,11 @@ function Favourites() {
         <button onClick={() => logout()}>Logout</button>
       </div>
     </div>
-      <div className=' w-3/4 pt-20 pb-10 flex flex-col'>
+      <div className=' w-3/4 pt-20 pb-10 flex flex-col justify-center items-center'>
         {
-          loading ? (<Spinner/>) :
+          loading ? (<div className=' mt-[80%]'><Spinner/></div>) :
           ( data?.length ? ( 
-              <div className=' grid grid-cols-3 gap-6'>
+              <div className=' grid grid-cols-2 sm:grid-cols-3 gap-6'>
               {
                 data.map((gif) => (
                   <FavouriteCard gif={gif.item} key={gif.id} handleDeleteItem={handleDeleteItem}/>
