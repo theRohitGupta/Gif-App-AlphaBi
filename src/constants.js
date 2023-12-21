@@ -1,0 +1,6 @@
+export const LOGIN_ROUTE = "/login"
+export const FORGOTPASSWORD_ROUTE = "/forgotpassword"
+export const SIGNUP_ROUTE = "/signup"
+export const HOME_ROUTE = "/"
+export const DASHBOARD_ROUTE = "/dashboard"
+export const FAVOURITES_ROUTE = "/favourites"
