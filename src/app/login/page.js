@@ -1,4 +1,5 @@
 "use client"
+import Spinner from '@/components/Spinner';
 import SupStar from '@/components/SupStar'
 import { DASHBOARD_ROUTE, FORGOTPASSWORD_ROUTE, HOME_ROUTE, SIGNUP_ROUTE } from '@/constants';
 import { auth } from '@/services/firebase';
@@ -12,6 +13,7 @@ import toast from 'react-hot-toast';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 function Login() {
+  const [loading, setLoading] = useState(false)
   useAuthentication()
   const {
     register,
@@ -25,6 +27,7 @@ function Login() {
 
   const onSubmit = async(data) => {
     // console.log(data)
+    setLoading(true)
     await signInWithEmailAndPassword(auth,data.email, data.password)
     .then((res) => {
       // console.log(res)
@@ -33,39 +36,48 @@ function Login() {
     }).catch((error) => {
       toast.error(error.code)
     })
+    setLoading(false)
   }
 
   return (
-    <div className=' flex h-screen justify-center items-center flex-col'>
-      <p className=' text-4xl font-bold text-center mb-14'>Log In</p>
-      <div className=' min-w-[350px] flex flex-col gap-4'>
-        <form className=' flex flex-col gap-6 justify-center' onSubmit={handleSubmit(onSubmit)}>
-          <label>
-            <p>Enter Your Email<SupStar/></p>
-            <input type='email' placeholder='Enter Email Address' className='form-field' {...register("email",{required: true})}/>
-            {
-              errors.email && <p className=' form-error'>Email is Required</p>
-            }
-          </label>
-          <label className=' relative'>
-            <p>Enter Your Password<SupStar/></p>
-            <input type={showPassword ? "text" : "password"} name="password" id="password" {...register("password",{required: true})} className="form-field" placeholder='Enter Password'/>
-                <span className='absolute right-3 top-[38px] cursor-pointer'
-                onClick={() => setShowPassword((prev) => !prev)}>
-                    {
-                        showPassword ? <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF"/> : <AiOutlineEye fontSize={24} fill="#AFB2BF"/>
-                    }
-                </span>  
-            {
-              errors.password && <p className=' form-error'>Password is Required</p>
-            }
-            <button className=' w-fit float-right mt-1 text-right' onClick={() => router.push(FORGOTPASSWORD_ROUTE)}>Forgot Password?</button>
-          </label>
-          <button type="submit" className=' bg-black rounded-3xl px-8 py-3 text-white'>Login</button>
-        </form>
-        <p className=' text-center'>Don't have an account? <Link href={SIGNUP_ROUTE} className=' font-semibold underline'>Register</Link></p>
-      </div>
-    </div>
+    <>
+      {
+        loading ? (<div className=' h-screen flex justify-center items-center'><Spinner/></div>)
+        : (
+          <div className=' flex h-screen justify-center items-center flex-col'>
+          <p className=' text-4xl font-bold text-center mb-14'>Log In</p>
+          <div className=' min-w-[350px] flex flex-col gap-4'>
+            <form className=' flex flex-col gap-6 justify-center' onSubmit={handleSubmit(onSubmit)}>
+              <label>
+                <p>Enter Your Email<SupStar/></p>
+                <input type='email' placeholder='Enter Email Address' className='form-field' {...register("email",{required: true})}/>
+                {
+                  errors.email && <p className=' form-error'>Email is Required</p>
+                }
+              </label>
+              <label className=' relative'>
+                <p>Enter Your Password<SupStar/></p>
+                <input type={showPassword ? "text" : "password"} name="password" id="password" {...register("password",{required: true})} className="form-field" placeholder='Enter Password'/>
+                    <span className='absolute right-3 top-[38px] cursor-pointer'
+                    onClick={() => setShowPassword((prev) => !prev)}>
+                        {
+                            showPassword ? <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF"/> : <AiOutlineEye fontSize={24} fill="#AFB2BF"/>
+                        }
+                    </span>  
+                {
+                  errors.password && <p className=' form-error'>Password is Required</p>
+                }
+                <button className=' w-fit float-right mt-1 text-right' onClick={() => router.push(FORGOTPASSWORD_ROUTE)}>Forgot Password?</button>
+              </label>
+              <button type="submit" className=' bg-black rounded-3xl px-8 py-3 text-white'>Login</button>
+            </form>
+            <p className=' text-center'>Don't have an account? <Link href={SIGNUP_ROUTE} className=' font-semibold underline'>Register</Link></p>
+          </div>
+        </div>
+        )
+      }
+    </>
+
   )
 }
 

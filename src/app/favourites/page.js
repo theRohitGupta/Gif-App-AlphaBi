@@ -12,7 +12,10 @@ import toast from 'react-hot-toast'
 import useAuthentication from '@/services/useAuthentication'
 
 function Favourites() {
-  useAuthentication()
+  useEffect(() => {
+    if(!auth?.currentUser) router.push(LOGIN_ROUTE)
+  },[])
+
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState()
@@ -73,7 +76,7 @@ function Favourites() {
                 ))
               }
               </div> ) : (
-              <div className=' text-2xl text-center'>No Favourites Gifs</div>
+              <div className=' text-2xl text-center mt-[200px]'>No Favourites Gifs</div>
             )
           )
         }

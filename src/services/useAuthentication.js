@@ -19,10 +19,6 @@ const useAuthentication = () => {
         if(userInfo && GUEST_ROUTES.includes(currentRoute)){
             router.push(DASHBOARD_ROUTE);
         }
-
-        if(userInfo && !GUEST_ROUTES.includes(currentRoute)){
-            router.push(DASHBOARD_ROUTE);
-        }
     },[]);
 
 }
