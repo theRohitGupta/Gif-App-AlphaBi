@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: process.env.firebaseKey,
+  apiKey: process.env.FIREBASE_KEY,
   authDomain: "gif-app-alphabi.firebaseapp.com",
   projectId: "gif-app-alphabi",
   storageBucket: "gif-app-alphabi.appspot.com",

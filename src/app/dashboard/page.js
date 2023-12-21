@@ -23,8 +23,8 @@ function Dashboard() {
   const [pageNumber, setPageNumber] = useState(1)
   const router = useRouter()
 
-  const giphyApiKey = process.env.giphyApiKey
-  const giphyApiUrl = process.env.giphyApiUrl
+  const giphyApiKey = process.env.GIPHY_API_KEY
+  const giphyApiUrl = process.env.GIPHY_API_URL
 
   const logout = () => {
     signOut(auth).then((res) => {
