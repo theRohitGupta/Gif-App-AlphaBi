@@ -23,8 +23,8 @@ function Dashboard() {
   const [pageNumber, setPageNumber] = useState(1)
   const router = useRouter()
 
-  const giphyApiKey = process.env.GIPHY_API_KEY
-  const giphyApiUrl = process.env.GIPHY_API_URL
+  const GIPHY_API_KEY = process.env.GIPHY_API_KEY
+  const GIPHY_API_URL = process.env.NEXT_PUBLIC_GIPHY_API_URL
 
   const logout = () => {
     signOut(auth).then((res) => {
@@ -90,9 +90,9 @@ function Dashboard() {
       cancelToken = axios.CancelToken.source();
 
       try {
-        const res = await axios.get(giphyApiUrl, {
+        const res = await axios.get(GIPHY_API_URL, {
           params: {
-            api_key: giphyApiKey,
+            api_key: GIPHY_API_KEY,
             q: query,
             offset,
           },
