@@ -1,4 +1,5 @@
 "use client"
+import Spinner from '@/components/Spinner';
 import SupStar from '@/components/SupStar'
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from '@/constants';
 import { auth } from '@/services/firebase';
