@@ -36,7 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 src/components
-src/services
+src/services/firestoreService.js
 src/app/forgotpassword
 src/app/dashboard
 src/app/favourites
