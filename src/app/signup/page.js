@@ -33,6 +33,7 @@ function SignUp() {
     .then((res) => {
       // console.log(res)
       toast.success("Account Created")
+      router.push(LOGIN_ROUTE)
     })
     .catch((error) => {
       toast.error("Email Already in Use")
@@ -47,7 +48,7 @@ function SignUp() {
         <form className=' flex flex-col gap-6 justify-center' onSubmit={handleSubmit(onSubmit)}>
           <label>
             <p>Enter Your Email<SupStar/></p>
-            <input type='email' placeholder='ENTER EMAIL ADDRESS' className='form-field' {...register("email",{required: true})}/>
+            <input type='email' placeholder='Enter Email Address' className='form-field' {...register("email",{required: true})}/>
             {
               errors.email && <p className=' form-error'>Email is Required</p>
             }

@@ -1,16 +1,12 @@
 // firebaseFunctions.js
 "use client"
+import toast from 'react-hot-toast';
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
 
 export const getItems = async (email) => {
-  // console.log("INSIDE FETCH DATA",email)
   try {
     const querySnapshot = await getDocs(collection(db, 'users', email, "favourites"));
-    // return querySnapshot.docs.map((doc) => ({
-    //   id: doc.id,
-    //   ...doc.data(),
-    // }));
     const data = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
@@ -22,31 +18,23 @@ export const getItems = async (email) => {
   }
 };
 
-export const addItem = async (email,newItem) => {
+export const addItem = async (email,gif) => {
   try {
     await addDoc(collection(db, 'users', email, "favourites"), {
-      item: newItem,
+      item: gif,
     });
+    toast.success("Added Gif into Favourites")
   } catch (error) {
     console.error('ERROR ADDING ITEM', error);
   }
 };
 
-export const updateItem = async (id, updatedItem) => {
+export const deleteItem = async (email, id) => {
+  // console.log(id)
   try {
-    const itemRef = doc(db, 'items', id);
-    await updateDoc(itemRef, {
-      name: updatedItem,
-    });
-  } catch (error) {
-    console.error('ERROR UPDATING ITEM', error);
-  }
-};
-
-export const deleteItem = async (id) => {
-  try {
-    const itemRef = doc(db, 'items', id);
+    const itemRef = doc(db, 'users', email, 'favourites', id);
     await deleteDoc(itemRef);
+    toast.success('Removed Gif From Favourites');
   } catch (error) {
     console.error('ERROR DELETING ITEM', error);
   }

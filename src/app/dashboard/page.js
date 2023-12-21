@@ -1,7 +1,7 @@
 "use client"
 import ImageCard from '@/components/ImageCard';
 import Spinner from '@/components/Spinner';
-import { LOGIN_ROUTE } from '@/constants';
+import { FAVOURITES_ROUTE, LOGIN_ROUTE } from '@/constants';
 import { auth } from '@/services/firebase';
 import useAuthentication from '@/services/useAuthentication';
 import axios from 'axios'
@@ -22,6 +22,8 @@ function Dashboard() {
   const [pages, setPages] = useState([1,2,3])
   const [pageNumber, setPageNumber] = useState(1)
   const router = useRouter()
+  const [email,setEmail] = useState(null)
+  const [data, setData] = useState([])
 
   const GIPHY_API_KEY = process.env.GIPHY_API_KEY
   const GIPHY_API_URL = process.env.NEXT_PUBLIC_GIPHY_API_URL
@@ -34,89 +36,99 @@ function Dashboard() {
       console.log(err.message)
     })
   }
-  const [email,setEmail] = useState(null)
+
   useEffect(() => {
     setEmail(auth?.currentUser?.email)
   },[auth])
-  // console.log(email)
 
-  const [data, setData] = useState([])
-  const [newItem, setNewItem] = useState()
-  const [updatedItemList, setUpdatedItemList] = useState([])
-
-  const fetchData = async() => {
+  const fetchFavourites = async() => {
     const items =  await getItems(email)
     setData(items)
   }
-
   // console.log(data)
 
   useEffect(() => {
-    if(email) fetchData()
+    if(email) fetchFavourites()
   },[email])
 
-  const handleAddItem = async(newItem) => {
-    // console.log(newItem)
-    // console.log(data)
-    data.map((ele) => {
-      if(ele.item.id === newItem.id){
-        // console.log("YES")
-        return
-      } 
+  const [added, setAdded] = useState([])
+  let addedItems = []
+  useEffect(() => {
+    data.map((ele) => { 
+      addedItems.push(ele.item.id)
     })
-    await addItem(email,newItem)
-    setNewItem()
-    fetchData()
+    setAdded(addedItems)
+  },[data])
+  // console.log(added)
+
+  const handleAddItem = async(gif) => {
+    const itemExists = data.some((ele) => ele.item.id === gif.id);
+    if(itemExists) return
+    await addItem(email,gif)
+    fetchFavourites()
   }
 
-  const handleDeleteItem = async(email,id) => {
-    await deleteItem(id)
-    fetchData()
+  const handleDeleteItem = async(id) => {
+    let foundElement;
+    const itemExists = data.some((ele) => {
+      if(ele.item.id === id){
+        foundElement = ele
+        return true
+      }
+    });
+    await deleteItem(email,foundElement.id)
+    fetchFavourites()
   }
+
+  let cancelToken;
+
+  const fetchData = async () => {
+    setOffset(0);
+    setPageNumber(1)
+    setPages([1,2,3])
+    setLoading(true);
+
+    if (cancelToken) {
+      // Cancel the previous request before making a new one
+      cancelToken.cancel();
+    }
+
+    cancelToken = axios.CancelToken.source();
+
+    try {
+      const res = await axios.get(GIPHY_API_URL, {
+        params: {
+          api_key: GIPHY_API_KEY,
+          q: query,
+          offset,
+        },
+        cancelToken: cancelToken.token,
+      });
+
+      const newGifs = res.data.data.map((gif) => ({
+        id: gif.id,
+        url: gif.images.fixed_height.url,
+        title: gif.title,
+        username: gif.username,
+      }));
+
+      setGifs(newGifs);
+    } catch (err) {
+      if (axios.isCancel(err)) {
+        // console.log("REQUEST CANCELLED");
+      } else {
+        console.log(err);
+      }
+    }
+
+    setLoading(false);
+  };
 
   useEffect(() => {
     // Create a cancellation token inside the useEffect
-    let cancelToken = axios.CancelToken.source();
+    cancelToken = axios.CancelToken.source();
 
-    const fetchData = async () => {
-      setOffset(0);
-      setLoading(true);
-
-      if (cancelToken) {
-        // Cancel the previous request before making a new one
-        cancelToken.cancel();
-      }
-
-      cancelToken = axios.CancelToken.source();
-
-      try {
-        const res = await axios.get(GIPHY_API_URL, {
-          params: {
-            api_key: GIPHY_API_KEY,
-            q: query,
-            offset,
-          },
-          cancelToken: cancelToken.token,
-        });
-
-        const newGifs = res.data.data.map((gif) => ({
-          id: gif.id,
-          url: gif.images.fixed_height.url,
-          title: gif.title,
-          username: gif.username,
-        }));
-
-        setGifs(newGifs);
-      } catch (err) {
-        if (axios.isCancel(err)) {
-          // console.log("REQUEST CANCELLED");
-        } else {
-          console.log(err);
-        }
-      }
-
-      setLoading(false);
-    };
+    fetchData()
 
     // Debounce the fetchData function using a setTimeout
     const debounceFetchData = setTimeout(() => {
@@ -134,7 +146,7 @@ function Dashboard() {
       }
       clearTimeout(debounceFetchData);
     };
-  }, [query, offset]);
+  }, [query]);
 
   const handleNext = () => {
     let newPages = []
@@ -181,7 +193,7 @@ function Dashboard() {
   return (
     <div className=' flex h-screen justify-center items-center flex-col relative'>
       <div className=' bg-black text-base font-bold text-white p-4 px-10 absolute top-0 w-full flex gap-6 justify-end items-center'>
-        <button className=' text-red-400'>Favourites</button>
+        <button className=' text-red-400' onClick={() => router.push(FAVOURITES_ROUTE)}>Favourites</button>
         <button onClick={() => logout()}>Logout</button>
       </div>
       <div className=' w-3/4 rounded-xl bg-white aspect-video flex flex-col gap-4 py-8'>
@@ -200,7 +212,7 @@ function Dashboard() {
                 <div className=' flex flex-row gap-4 w-full'>
                 {
                   gifs.slice(offset,offset+limit).map((gif) => (
-                    <ImageCard gif={gif} key={gif.id} handleAddItem={handleAddItem} handleDeleteItem={handleDeleteItem} data={data}/>
+                    <ImageCard gif={gif} key={gif.id} handleAddItem={handleAddItem} handleDeleteItem={handleDeleteItem} addedItems={added} customClasses={"w-1/3"}/>
                   ))
                 }
                 </div>
