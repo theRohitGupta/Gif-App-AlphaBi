@@ -27,12 +27,12 @@ function SignUp() {
 
 
   const onSubmit = async(data) => {
-    setLoading(true)
     // console.log(data)
     if(data.password !== data.confirmPassword){
       toast.error("Passwords do not Match")
       return
     }
+    setLoading(true)
     await createUserWithEmailAndPassword(auth,data.email, data.password)
     .then((res) => {
       // console.log(res)
