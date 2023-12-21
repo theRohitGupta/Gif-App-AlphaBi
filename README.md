@@ -10,7 +10,7 @@ This Next.js application is designed to provide users with a seamless GIF search
 - **GIF Search and Gallery:** The application fetches GIFs from the GIPHY API and displays them in a gallery based on user-searched keywords.
 - **Marking Favorites:** Users can mark individual GIFs as favorites, and a "favorites" section is implemented on the home page and that data is stored in firestore db.
 - **Hot Search and Loading Animations:** Hot search feature dynamically updates GIFs as the user types, and loading animations enhance the user experience during data 
-- **Pagination (Additional Task):** Implement pagination for the GIF gallery to allow users to navigate through search results efficiently.
+- **Pagination :** Implement pagination for the GIF gallery to allow users to navigate through search results efficiently.
 fetching.
 
 ## Tech Stack
@@ -18,7 +18,7 @@ fetching.
 - **Frontend Framework:** Next.js
 - **Authentication:** Firebase Authentication
 - **GIF API:** GIPHY API
-- **Hosting:** [Vercel](#) and [GitHub Pages](#)
+- **Hosting:** [Vercel](https://gif-app-alpha-bi.vercel.app/)
 
 ## Setup
 

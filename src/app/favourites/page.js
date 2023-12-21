@@ -9,9 +9,10 @@ import { signOut } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import useAuthentication from '@/services/useAuthentication'
 
 function Favourites() {
-
+  useAuthentication()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState()
