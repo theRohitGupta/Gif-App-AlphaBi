@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js GIF Search App with Firebase Authentication
+# ASSIGNMENT ALPHA BI BY ROHIT GUPTA
+## Overview
 
-## Getting Started
+This Next.js application is designed to provide users with a seamless GIF search experience. It incorporates Firebase Authentication for user login and registration, and it utilizes the GIPHY API to display a gallery of GIFs based on user-searched keywords.
 
-First, run the development server:
+## Features
 
-```bash
+- **Firebase Authentication:** Users can log in using their email and password or sign up for a new account. The Firebase Authentication web SDK is used for the authentication process.
+- **GIF Search and Gallery:** The application fetches GIFs from the GIPHY API and displays them in a gallery based on user-searched keywords.
+- **Marking Favorites:** Users can mark individual GIFs as favorites, and a "favorites" section is implemented on the home page and that data is stored in firestore db.
+- **Hot Search and Loading Animations:** Hot search feature dynamically updates GIFs as the user types, and loading animations enhance the user experience during data 
+- **Pagination (Additional Task):** Implement pagination for the GIF gallery to allow users to navigate through search results efficiently.
+fetching.
+
+## Tech Stack
+
+- **Frontend Framework:** Next.js
+- **Authentication:** Firebase Authentication
+- **GIF API:** GIPHY API
+- **Hosting:** [Vercel](#) and [GitHub Pages](#)
+
+## Setup
+
+1. Clone the repository: `git clone https://github.com/theRohitGupta/Gif-App-AlphaBi.git`
+2. Install dependencies: `npm install`
+3. Configure Firebase: Follow the [Firebase setup guide](https://firebase.google.com/docs/web/setup) and update your Firebase configuration in the project.
+4. Visit [http://localhost:3000](http://localhost:3000) to view the app in your browser.
+
+## Running the Application
+
+## bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Demo
+**Deployed on:**
+- [Vercel](https://gif-app-alpha-bi.vercel.app/)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Contact Information
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+For inquiries and submissions, please email:
 
-## Learn More
+- **Name:** Rohit Gupta
+- **Domain:** Full Stack
+- **Number:** 7049761589
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
