@@ -4,7 +4,7 @@ import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 export const getItems = async (email) => {
-  console.log("INSIDE FETCH DATA",email)
+  // console.log("INSIDE FETCH DATA",email)
   try {
     const querySnapshot = await getDocs(collection(db, 'users', email, "favourites"));
     // return querySnapshot.docs.map((doc) => ({
